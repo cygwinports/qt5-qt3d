@@ -1,0 +1,48 @@
+inherit qt5-qmake
+
+NAME="qt5-qt3d"
+VERSION=5.5.1
+RELEASE=1
+CATEGORY="Libs"
+SUMMARY="Qt C++ application framework (3D API)"
+DESCRIPTION="Qt is a cross-platform application framework for desktop and
+embedded development. Qt enables programmers to create advanced GUI
+applications once and deploy them to Windows, Mac OS X and Linux without
+rewriting the source code. Companies using Qt can leverage software
+investments made on one platform across many others."
+HOMEPAGE="http://qt-project.org/"
+SRC_URI="http://download.qt-project.org/official_releases/qt/${VERSION%.*}/${VERSION}/submodules/qt3d-opensource-src-${VERSION}.tar.xz"
+SRC_DIR="qt3d-opensource-src-${VERSION}"
+PATCH_URI="5.5.1-config_assimp.patch"
+
+PKG_NAMES="libQt53D5 libQt53D-devel ${NAME}-doc ${NAME}-examples"
+libQt53D5_CONTENTS="
+	usr/bin/cygQt53D*-5.dll
+	usr/lib/qt5/plugins/sceneparsers/
+	usr/lib/qt5/qml/Qt3D/
+	usr/lib/qt5/qml/QtQuick/Scene3D/
+	usr/share/doc/qt5-qt3d/
+"
+libQt53D_devel_CONTENTS="
+	usr/include/qt5/Qt3D*/
+	usr/lib/cmake/Qt53D*/
+	usr/lib/libQt53D*
+	usr/lib/pkgconfig/Qt53D*.pc
+	usr/lib/qt5/mkspecs/modules/qt_lib_3d*.pri
+"
+qt5_qt3d_doc_CATEGORY="Doc"
+qt5_qt3d_doc_CONTENTS="usr/share/qt5/doc/qt3d*"
+qt5_qt3d_examples_CATEGORY="X11"
+qt5_qt3d_examples_CONTENTS="usr/lib/qt5/examples/qt3d/"
+
+src_compile() {
+	cd ${B}
+	cygqmake5 ${S}
+	cygmake
+	cygmake docs
+}
+
+src_install() {
+	cd ${B}
+	qt5_qmake_install install_docs
+}
