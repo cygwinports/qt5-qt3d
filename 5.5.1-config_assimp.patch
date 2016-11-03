@@ -1,8 +1,0 @@
---- origsrc/qt3d-opensource-src-5.5.1/src/plugins/sceneparsers/sceneparsers.pro	2015-10-12 23:37:31.000000000 -0500
-+++ src/qt3d-opensource-src-5.5.1/src/plugins/sceneparsers/sceneparsers.pro	2015-10-19 01:31:42.463221000 -0500
-@@ -1,4 +1,4 @@
- TEMPLATE = subdirs
--config_assimp|win32:!wince*|osx: SUBDIRS += assimp
-+SUBDIRS += assimp
- SUBDIRS += gltf
- 

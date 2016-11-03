@@ -1,7 +1,7 @@
 inherit qt5-qmake
 
 NAME="qt5-qt3d"
-VERSION=5.5.1
+VERSION=5.6.2
 RELEASE=1
 CATEGORY="Libs"
 SUMMARY="Qt C++ application framework (3D API)"
@@ -10,10 +10,10 @@ embedded development. Qt enables programmers to create advanced GUI
 applications once and deploy them to Windows, Mac OS X and Linux without
 rewriting the source code. Companies using Qt can leverage software
 investments made on one platform across many others."
-HOMEPAGE="http://qt-project.org/"
-SRC_URI="http://download.qt-project.org/official_releases/qt/${VERSION%.*}/${VERSION}/submodules/qt3d-opensource-src-${VERSION}.tar.xz"
+HOMEPAGE="https://www.qt.io/"
+SRC_URI="http://download.qt.io/official_releases/qt/${VERSION%.*}/${VERSION}/submodules/qt3d-opensource-src-${VERSION}.tar.xz"
 SRC_DIR="qt3d-opensource-src-${VERSION}"
-PATCH_URI="5.5.1-config_assimp.patch"
+PATCH_URI="5.6.2-case-sensitivity.patch"
 
 PKG_NAMES="libQt53D5 libQt53D-devel ${NAME}-doc ${NAME}-examples"
 libQt53D5_CONTENTS="
@@ -24,10 +24,12 @@ libQt53D5_CONTENTS="
 	usr/share/doc/qt5-qt3d/
 "
 libQt53D_devel_CONTENTS="
+	usr/bin/qgltf-qt5
 	usr/include/qt5/Qt3D*/
 	usr/lib/cmake/Qt53D*/
 	usr/lib/libQt53D*
 	usr/lib/pkgconfig/Qt53D*.pc
+	usr/lib/qt5/bin/qgltf.exe
 	usr/lib/qt5/mkspecs/modules/qt_lib_3d*.pri
 "
 qt5_qt3d_doc_CATEGORY="Doc"
@@ -45,4 +47,11 @@ src_compile() {
 src_install() {
 	cd ${B}
 	qt5_qmake_install install_docs
+
+	for x in ${D}/usr/lib/qt5/bin/*.exe
+	do
+		xname=$(basename $x .exe)
+		dosym ../lib/qt5/bin/${xname}.exe /usr/bin/${xname}-qt5
+	done
+
 }

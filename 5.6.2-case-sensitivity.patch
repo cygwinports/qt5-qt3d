@@ -1,0 +1,118 @@
+--- origsrc/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/3DSConverter.cpp	2016-08-12 03:54:01.000000000 -0500
++++ src/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/3DSConverter.cpp	2016-10-31 14:30:56.245305300 -0500
+@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ 
+ /** @file Implementation of the 3ds importer class */
+ 
++#define _POSIX_C_SOURCE 200809L
+ #include "AssimpPCH.h"
+ #ifndef ASSIMP_BUILD_NO_3DS_IMPORTER
+ 
+--- origsrc/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/ByteSwap.h	2016-08-12 03:54:01.000000000 -0500
++++ src/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/ByteSwap.h	2016-10-31 14:45:32.929350400 -0500
+@@ -38,6 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ ----------------------------------------------------------------------
+ */
+ 
++#ifndef _BYTESWAP_H
++#define AI_BYTESWAP_H_INC
++#endif
+ /** @file Helper class tp perform various byte oder swappings 
+    (e.g. little to big endian) */
+ #ifndef AI_BYTESWAP_H_INC
+@@ -283,3 +286,7 @@ struct Getter<SwapEndianess,T,false> {
+ } // end Assimp
+ 
+ #endif //!! AI_BYTESWAP_H_INC
++#ifndef _BYTESWAP_H
++#include_next <byteswap.h>
++#undef AI_BYTESWAP_H_INC
++#endif
+--- origsrc/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/IFF.h	2016-08-12 03:54:01.000000000 -0500
++++ src/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/IFF.h	2016-10-31 14:39:05.621595600 -0500
+@@ -7,7 +7,7 @@
+ #ifndef AI_IFF_H_INCLUDED
+ #define AI_IFF_H_INCLUDED
+ 
+-#include "ByteSwap.h"
++#include "../code/ByteSwap.h"
+ 
+ namespace Assimp	{
+ namespace IFF		{
+--- origsrc/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/LWOLoader.cpp	2016-08-12 03:54:01.000000000 -0500
++++ src/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/LWOLoader.cpp	2016-10-31 14:39:12.075642900 -0500
+@@ -50,7 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ #include "LWOLoader.h"
+ #include "StringComparison.h"
+ #include "SGSpatialSort.h"
+-#include "ByteSwap.h"
++#include "../code/ByteSwap.h"
+ #include "ProcessHelper.h"
+ #include "ConvertToLHProcess.h"
+ 
+--- origsrc/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/LWOMaterial.cpp	2016-08-12 03:54:01.000000000 -0500
++++ src/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/LWOMaterial.cpp	2016-10-31 14:39:15.721702300 -0500
+@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ 
+ // internal headers
+ #include "LWOLoader.h"
+-#include "ByteSwap.h"
++#include "../code/ByteSwap.h"
+ 
+ using namespace Assimp;
+ 
+--- origsrc/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/MD2Loader.cpp	2016-08-12 03:54:01.000000000 -0500
++++ src/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/MD2Loader.cpp	2016-10-31 14:39:19.224919600 -0500
+@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ 
+ /** @file Implementation of the MD2 importer class */
+ #include "MD2Loader.h"
+-#include "ByteSwap.h"
++#include "../code/ByteSwap.h"
+ #include "MD2NormalTable.h" // shouldn't be included by other units
+ 
+ using namespace Assimp;
+--- origsrc/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/MD3Loader.cpp	2016-08-12 03:54:01.000000000 -0500
++++ src/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/MD3Loader.cpp	2016-10-31 14:39:24.369616500 -0500
+@@ -52,7 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ #ifndef ASSIMP_BUILD_NO_MD3_IMPORTER
+ 
+ #include "MD3Loader.h"
+-#include "ByteSwap.h"
++#include "../code/ByteSwap.h"
+ #include "SceneCombiner.h"
+ #include "GenericProperty.h"
+ #include "RemoveComments.h"
+--- origsrc/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/MD3Loader.h	2016-08-12 03:54:01.000000000 -0500
++++ src/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/MD3Loader.h	2016-10-31 14:39:29.244250100 -0500
+@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ #define AI_MD3LOADER_H_INCLUDED
+ 
+ #include "BaseImporter.h"
+-#include "ByteSwap.h"
++#include "../code/ByteSwap.h"
+ 
+ #include "../include/assimp/types.h"
+ 
+--- origsrc/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/MDCLoader.h	2016-08-12 03:54:01.000000000 -0500
++++ src/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/MDCLoader.h	2016-10-31 14:39:34.017770700 -0500
+@@ -48,7 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ 
+ #include "BaseImporter.h"
+ #include "MDCFileData.h"
+-#include "ByteSwap.h"
++#include "../code/ByteSwap.h"
+ 
+ namespace Assimp	{
+ using namespace MDC;
+--- origsrc/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/StreamReader.h	2016-08-12 03:54:01.000000000 -0500
++++ src/qt3d-opensource-src-5.6.2/src/3rdparty/assimp/code/StreamReader.h	2016-10-31 14:37:33.851477200 -0500
+@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ #ifndef AI_STREAMREADER_H_INCLUDED
+ #define AI_STREAMREADER_H_INCLUDED
+ 
+-#include "ByteSwap.h"
++#include "../code/ByteSwap.h"
+ 
+ namespace Assimp {
+ 
